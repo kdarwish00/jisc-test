@@ -1,0 +1,28 @@
+<form [formGroup]="form" (ngSubmit)="handleSubmit()">
+  <mat-form-field appearance="fill" class="mx-4" subscriptSizing="dynamic">
+    <mat-label>Author</mat-label>
+    <input matInput type="text" formControlName="author" [errorStateMatcher]="touchedErrorMatcher" />
+    @if (form.get('author')?.invalid && form.get('author')?.touched) {
+      <mat-error>Author is required</mat-error>
+    }
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" class="mx-4" subscriptSizing="dynamic">
+    <mat-label>Text</mat-label>
+    <input matInput type="text" formControlName="text" [errorStateMatcher]="touchedErrorMatcher" />
+    @if (form.get('text')?.invalid && form.get('text')?.touched) {
+      <mat-error>
+        @if (form.get('text')?.errors?.['required']) {
+          Text is required
+        } @else if (form.get('text')?.errors?.['minlength']) {
+          Text must be at least 5 characters
+        }
+      </mat-error>
+    }
+  </mat-form-field>
+
+  <button mat-raised-button color="primary" type="submit">
+    Add journal
+  </button>
+</form>
+

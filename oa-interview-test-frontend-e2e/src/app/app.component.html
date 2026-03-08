@@ -1,0 +1,21 @@
+<iw-app-layout>
+  <mat-form-field class="mx-4">
+    <mat-label>Search journals</mat-label>
+    <input matInput type="text" [formControl]="searchControl" />
+  </mat-form-field>
+
+  <button mat-raised-button color="accent" (click)="handleToggleAdmin()">
+    {{ isAdmin ? 'Disable admin mode' : 'Enable admin mode' }}
+  </button>
+
+  @if (isAdmin) {
+    <iw-add-journal-form (formSubmitted)="handleCreateJournal($event)"></iw-add-journal-form>
+    @if (addMessage(); as msg) {
+      <p class="mx-4" [class.text-green-600]="msg.type === 'success'" [class.text-red-600]="msg.type === 'error'">
+        {{ msg.text }}
+      </p>
+    }
+  }
+
+  <iw-journal-list [journals]="(journals$ | async) ?? undefined"/>
+</iw-app-layout>

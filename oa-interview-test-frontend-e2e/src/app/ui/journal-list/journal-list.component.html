@@ -1,0 +1,13 @@
+<mat-list>
+  @for (journal of journals(); track journal.publicationDate) {
+    <mat-list-item>
+      <div matListItemTitle>{{ journal.author }}</div>
+      <div matListItemLine>{{ journal.publicationDate | date }}</div>
+      <div matListItemLine>{{ journal.text }}</div>
+    </mat-list-item>
+  } @empty {
+    <mat-list-item>
+      <div matListItemTitle>No journals!</div>
+    </mat-list-item>
+  }
+</mat-list>
