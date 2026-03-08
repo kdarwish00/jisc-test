@@ -39,6 +39,8 @@ To add a new journal article, send a `POST` request to:
 
 The request must include the header `X-API-KEY: abc123` and a JSON body of the form:
 
+(Default key `abc123` is set in `src/main/resources/application.yaml` under `journal.api.key`; you can override it there or via environment/property.)
+
 ```json
 {
   "author": "Author name",

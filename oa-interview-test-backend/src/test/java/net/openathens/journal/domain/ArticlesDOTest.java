@@ -4,15 +4,24 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.time.LocalDateTime;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import net.openathens.journal.security.ApiKeyConstants;
 import net.openathens.journal.types.rest.JournalResponse;
 
 class ArticlesDOTest {
 
+    private ArticlesDO articlesDO;
+
+    @BeforeEach
+    void setUp() {
+        ApiKeyConstants apiKeyConstants = new ApiKeyConstants("abc123");
+        articlesDO = new ArticlesDO(apiKeyConstants);
+    }
+
     @Test
     void addArticleShouldCreateArticleWithCurrentPublicationDate() {
-        ArticlesDO articlesDO = new ArticlesDO();
         LocalDateTime beforeCreation = LocalDateTime.now();
 
         JournalResponse created = articlesDO.addArticle("New article text", "Author Name");

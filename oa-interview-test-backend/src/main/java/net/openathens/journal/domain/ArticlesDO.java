@@ -7,6 +7,7 @@ import java.util.UUID;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 import net.openathens.journal.persistence.InMemoryDB;
 import net.openathens.journal.security.ApiKeyConstants;
@@ -14,16 +15,22 @@ import net.openathens.journal.types.rest.JournalResponse;
 import net.openathens.journal.types.rest.JournalResponseList;
 import net.openathens.journal.types.transfer.JournalTO;
 
+@Component
 public class ArticlesDO {
 
-    private static final Logger logger = LoggerFactory.getLogger(InMemoryDB.class);
+    private static final Logger logger = LoggerFactory.getLogger(ArticlesDO.class);
 
     private final InMemoryDB db = new InMemoryDB();
+    private final ApiKeyConstants apiKeyConstants;
+
+    public ArticlesDO(ApiKeyConstants apiKeyConstants) {
+        this.apiKeyConstants = apiKeyConstants;
+    }
 
     public JournalResponseList getAllArticles() {
 
         List<JournalResponse> transformed = new ArrayList<>();
-        logger.info("Using '{}' to get data from database...", ApiKeyConstants.JOURNAL_API_KEY);
+        logger.info("Using '{}' to get data from database...", apiKeyConstants.getJournalApiKey());
         for (JournalTO each : db.fetchAll()) {
 
             JournalResponse temp = new JournalResponse();
@@ -40,7 +47,7 @@ public class ArticlesDO {
     public JournalResponseList searchArticleByBody(String stringToSearch) {
         List<JournalResponse> transformed = new ArrayList<>();
 
-        logger.info("Using '{}' to get data from database...", ApiKeyConstants.JOURNAL_API_KEY);
+        logger.info("Using '{}' to get data from database...", apiKeyConstants.getJournalApiKey());
 
         logger.info("Search for '{}' in the database...", stringToSearch);
         for (JournalTO each : db.fetchAll()) {

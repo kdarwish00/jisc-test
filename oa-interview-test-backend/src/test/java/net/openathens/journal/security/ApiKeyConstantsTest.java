@@ -3,12 +3,19 @@ package net.openathens.journal.security;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.TestPropertySource;
 
+@SpringBootTest
+@TestPropertySource(properties = "journal.api.key=abc123")
 class ApiKeyConstantsTest {
+
+    @Autowired
+    private ApiKeyConstants apiKeyConstants;
 
     @Test
     void journalApiKeyShouldMatchExpectedValue() {
-        assertEquals("abc123", ApiKeyConstants.JOURNAL_API_KEY);
+        assertEquals("abc123", apiKeyConstants.getJournalApiKey());
     }
 }
-

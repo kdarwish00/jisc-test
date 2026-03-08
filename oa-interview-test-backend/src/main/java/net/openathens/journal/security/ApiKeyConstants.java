@@ -1,13 +1,22 @@
 package net.openathens.journal.security;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
 /**
  * Central place for API key configuration used to authorise journal operations.
+ * Key is loaded from application config (e.g. journal.api.key).
  */
-public final class ApiKeyConstants {
+@Component
+public class ApiKeyConstants {
 
-    public static final String JOURNAL_API_KEY = "abc123";
+    private final String journalApiKey;
 
-    private ApiKeyConstants() {
+    public ApiKeyConstants(@Value("${journal.api.key}") String journalApiKey) {
+        this.journalApiKey = journalApiKey;
+    }
+
+    public String getJournalApiKey() {
+        return journalApiKey;
     }
 }
-
