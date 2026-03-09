@@ -8,6 +8,12 @@
     {{ isAdmin ? 'Disable admin mode' : 'Enable admin mode' }}
   </button>
 
+  @if (loadError()) {
+    <p class="mx-4 text-red-600">
+      Could not load journals. Please try again.
+    </p>
+  }
+
   @if (isAdmin) {
     <iw-add-journal-form (formSubmitted)="handleCreateJournal($event)"></iw-add-journal-form>
     @if (addMessage(); as msg) {

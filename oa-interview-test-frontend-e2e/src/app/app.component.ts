@@ -6,7 +6,7 @@ import {AsyncPipe} from '@angular/common';
 import {MatFormField, MatInput, MatLabel} from '@angular/material/input';
 import {FormControl, ReactiveFormsModule} from '@angular/forms';
 import {MatButton} from '@angular/material/button';
-import {iif, startWith, switchMap} from 'rxjs';
+import {catchError, iif, of, startWith, switchMap} from 'rxjs';
 import {AddJournalFormComponent} from './ui/add-journal-form/add-journal-form.component';
 import {CreateJournalPayload} from './types/journal';
 
@@ -30,11 +30,17 @@ export class App {
         this.journalService.searchJournals(searchTerm),
       ),
     ),
+    catchError(() => {
+      this.loadError.set(true);
+      return of([]);
+    }),
   );
 
   protected isAdmin = false;
 
   protected readonly addMessage = signal<{ type: 'success' | 'error'; text: string } | null>(null);
+
+  protected readonly loadError = signal(false);
 
   handleToggleAdmin(): void {
     this.isAdmin = !this.isAdmin;
